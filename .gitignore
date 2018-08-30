@@ -1,0 +1,5 @@
+.*
+!.gitignore
+!.editorconfig
+*.py[cod]
+__pycache__

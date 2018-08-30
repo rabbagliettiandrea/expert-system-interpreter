@@ -1,0 +1,163 @@
+# FACTS
+beginFact: riva_sx
+    posizione = "sx"
+    tipo = "riva"
+    n_missionari = 3
+    n_cannibali = 3
+endFact
+beginFact: riva_dx
+    posizione = "dx"
+    tipo = "riva"
+    n_missionari = 0
+    n_cannibali = 0
+endFact
+beginFact: barca
+    posizione = "sx"
+    tipo = "barca"
+endFact
+
+# GOAL
+beginGoal:
+    beginFact: riva_sx
+        posizione = "sx"
+        tipo = "riva"
+        n_missionari = 0
+        n_cannibali = 0
+    endFact
+    beginFact: riva_dx
+        posizione = "dx"
+        tipo = "riva"
+        n_missionari = 3
+        n_cannibali = 3
+    endFact
+    beginFact: barca
+        posizione = "dx"
+        tipo = "barca"
+    endFact
+endGoal
+
+# RULES
+beginRule: sposta_2_missionari_(A)
+    not_equal(?src, posizione, ?dest->posizione)
+    equal(?src, tipo, "riva")
+    equal(?dest, tipo, "riva")
+    equal(barca, posizione, ?src->posizione)
+    equal(barca, tipo, "barca")
+
+    greater_equal_than(?src, n_missionari, ?src->n_cannibali+2) || equal(?src, n_cannibali, 2)
+then
+    update(barca, posizione, ?dest->posizione)
+    update(?src, n_missionari, ?src->n_missionari-2)
+    update(?dest, n_missionari, ?dest->n_missionari+2)
+endRule
+
+beginRule: sposta_2_missionari_(B)
+    not_equal(?src, posizione, ?dest->posizione)
+    equal(?src, tipo, "riva")
+    equal(?dest, tipo, "riva")
+    equal(barca, posizione, ?src->posizione)
+    equal(barca, tipo, "barca")
+
+    equal(?src, n_missionari, 2)
+    equal(?src, n_cannibali, 2)
+then
+    update(barca, posizione, ?dest->posizione)
+    update(?src, n_missionari, ?src->n_missionari-2)
+    update(?dest, n_missionari, ?dest->n_missionari+2)
+endRule
+
+beginRule: sposta_2_cannibali
+    not_equal(?src, posizione, ?dest->posizione)
+    equal(?src, tipo, "riva")
+    equal(?dest, tipo, "riva")
+    equal(barca, posizione, ?src->posizione)
+    equal(barca, tipo, "barca")
+
+    greater_equal_than(?src, n_cannibali, 2)
+    greater_equal_than(?dest, n_missionari, ?dest->n_cannibali+2) || equal(?dest, n_missionari, 0)
+then
+    update(barca, posizione, ?dest->posizione)
+    update(?src, n_cannibali, ?src->n_cannibali-2)
+    update(?dest, n_cannibali, ?dest->n_cannibali+2)
+endRule
+
+beginRule: sposta_1_cannibale_(A)
+    not_equal(?src, posizione, ?dest->posizione)
+    equal(?src, tipo, "riva")
+    equal(?dest, tipo, "riva")
+    equal(barca, posizione, ?src->posizione)
+    equal(barca, tipo, "barca")
+
+    greater_equal_than(?src, n_cannibali, 1)
+    equal(?dest, n_cannibali, 0)
+    greater_equal_than(?dest, n_missionari, 1)
+then
+    update(barca, posizione, ?dest->posizione)
+    update(?src, n_cannibali, ?src->n_cannibali-1)
+    update(?dest, n_cannibali, ?dest->n_cannibali+1)
+endRule
+
+beginRule: sposta_1_cannibale_(B)
+    not_equal(?src, posizione, ?dest->posizione)
+    equal(?src, tipo, "riva")
+    equal(?dest, tipo, "riva")
+    equal(barca, posizione, ?src->posizione)
+    equal(barca, tipo, "barca")
+
+    greater_equal_than(?src, n_cannibali, 1)
+    equal(?dest, n_missionari, 0)
+    greater_equal_than(?dest, n_cannibali, 1)
+then
+    update(barca, posizione, ?dest->posizione)
+    update(?src, n_cannibali, ?src->n_cannibali-1)
+    update(?dest, n_cannibali, ?dest->n_cannibali+1)
+endRule
+
+beginRule: sposta_1_cannibale_(C)
+    not_equal(?src, posizione, ?dest->posizione)
+    equal(?src, tipo, "riva")
+    equal(?dest, tipo, "riva")
+    equal(barca, posizione, ?src->posizione)
+    equal(barca, tipo, "barca")
+
+    greater_equal_than(?src, n_cannibali, 1)
+    greater_equal_than(?dest, n_missionari, ?dest->n_cannibali+1)
+then
+    update(barca, posizione, ?dest->posizione)
+    update(?src, n_cannibali, ?src->n_cannibali-1)
+    update(?dest, n_cannibali, ?dest->n_cannibali+1)
+endRule
+
+beginRule: sposta_1_missionario
+    not_equal(?src, posizione, ?dest->posizione)
+    equal(?src, tipo, "riva")
+    equal(?dest, tipo, "riva")
+    equal(barca, posizione, ?src->posizione)
+    equal(barca, tipo, "barca")
+
+    greater_equal_than(?src, n_missionari, 1)
+    greater_than(?src, n_missionari, ?src->n_cannibali) || equal(?src, n_cannibali, 1)
+    greater_equal_than(?dest, n_missionari, ?dest->n_cannibali) || equal(?dest, n_cannibali, 1)
+then
+    update(barca, posizione, ?dest->posizione)
+    update(?src, n_missionari, ?src->n_missionari-1)
+    update(?dest, n_missionari, ?dest->n_missionari+1)
+endRule
+
+beginRule: sposta_1_missionario_e_1_cannibale
+    not_equal(?src, posizione, ?dest->posizione)
+    equal(?src, tipo, "riva")
+    equal(?dest, tipo, "riva")
+    equal(barca, posizione, ?src->posizione)
+    equal(barca, tipo, "barca")
+
+    greater_equal_than(?src, n_cannibali, 1)
+    greater_equal_than(?src, n_missionari, 1)
+    greater_equal_than(?dest, n_missionari, ?dest->n_cannibali)
+then
+    update(barca, posizione, ?dest->posizione)
+    update(?src, n_missionari, ?src->n_missionari-1)
+    update(?dest, n_missionari, ?dest->n_missionari+1)
+    update(?src, n_cannibali, ?src->n_cannibali-1)
+    update(?dest, n_cannibali, ?dest->n_cannibali+1)
+endRule

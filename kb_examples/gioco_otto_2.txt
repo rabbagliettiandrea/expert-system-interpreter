@@ -1,0 +1,147 @@
+# FACTS
+# X|8|1
+# 3|4|5
+# 6|7|2
+
+
+beginFact: casella_1
+    riga = 1
+    colonna = 1
+    contenuto = NIL
+endFact
+beginFact: casella_2
+    riga = 1
+    colonna = 2
+    contenuto = 8
+endFact
+beginFact: casella_3
+    riga = 1
+    colonna = 3
+    contenuto = 1
+endFact
+beginFact: casella_4
+    riga = 2
+    colonna = 1
+    contenuto = 3
+endFact
+beginFact: casella_5
+    riga = 2
+    colonna = 2
+    contenuto = 4
+endFact
+beginFact: casella_6
+    riga = 2
+    colonna = 3
+    contenuto = 5
+endFact
+beginFact: casella_7
+    riga = 3
+    colonna = 1
+    contenuto = 6
+endFact
+beginFact: casella_8
+    riga = 3
+    colonna = 2
+    contenuto = 7
+endFact
+beginFact: casella_9
+    riga = 3
+    colonna = 3
+    contenuto = 2
+endFact
+
+
+# RULES
+beginRule: muovi_in_alto
+    equal(?c, contenuto, NIL)
+    not_equal(?c, riga, 1)
+    equal(?d, riga, ?c->riga-1)
+    equal(?d, colonna, ?c->colonna)
+then
+    update(?c, contenuto, ?d->contenuto)
+    update(?d, contenuto, NIL)
+endRule
+
+beginRule: muovi_in_basso
+    equal(?c, contenuto, NIL)
+    not_equal(?c, riga, 3)
+    equal(?d, riga, ?c->riga+1)
+    equal(?d, colonna, ?c->colonna)
+then
+    update(?c, contenuto, ?d->contenuto)
+    update(?d, contenuto, NIL)
+endRule
+
+beginRule: muovi_a_sinistra
+    equal(?c, contenuto, NIL)
+    not_equal(?c, colonna, 1)
+    equal(?d, colonna, ?c->colonna-1)
+    equal(?d, riga, ?c->riga)
+then
+    update(?c, contenuto, ?d->contenuto)
+    update(?d, contenuto, NIL)
+endRule
+
+beginRule: muovi_a_destra
+    equal(?c, contenuto, NIL)
+    not_equal(?c, colonna, 3)
+    equal(?d, colonna, ?c->colonna+1)
+    equal(?d, riga, ?c->riga)
+then
+    update(?c, contenuto, ?d->contenuto)
+    update(?d, contenuto, NIL)
+endRule
+
+
+# GOAL
+# X|1|2
+# 3|4|5
+# 6|7|8
+
+beginGoal:
+    beginFact: casella_1
+        riga = 1
+        colonna = 1
+        contenuto = NIL
+    endFact
+    beginFact: casella_2
+        riga = 1
+        colonna = 2
+        contenuto = 1
+    endFact
+    beginFact: casella_3
+        riga = 1
+        colonna = 3
+        contenuto = 2
+    endFact
+    beginFact: casella_4
+        riga = 2
+        colonna = 1
+        contenuto = 3
+    endFact
+    beginFact: casella_5
+        riga = 2
+        colonna = 2
+        contenuto = 4
+    endFact
+    beginFact: casella_6
+        riga = 2
+        colonna = 3
+        contenuto = 5
+    endFact
+    beginFact: casella_7
+        riga = 3
+        colonna = 1
+        contenuto = 6
+    endFact
+    beginFact: casella_8
+        riga = 3
+        colonna = 2
+        contenuto = 7
+    endFact
+    beginFact: casella_9
+        riga = 3
+        colonna = 3
+        contenuto = 8
+    endFact
+endGoal

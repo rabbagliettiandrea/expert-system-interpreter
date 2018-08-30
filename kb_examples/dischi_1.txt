@@ -1,0 +1,92 @@
+# FACTS
+beginFact: pila_1
+    etichetta = 1
+    tipo = "pila"
+    n_dischi = 4
+endFact
+beginFact: pila_2
+    etichetta = 2
+    tipo = "pila"
+    n_dischi = 0
+endFact
+beginFact: pila_3
+    etichetta = 3
+    tipo = "pila"
+    n_dischi = 0
+endFact
+
+beginFact: disco_A
+    tipo = "disco"
+    pila = 1
+    posizione = 1
+endFact
+beginFact: disco_B
+    tipo = "disco"
+    pila = 1
+    posizione = 2
+endFact
+beginFact: disco_C
+    tipo = "disco"
+    pila = 1
+    posizione = 3
+endFact
+beginFact: disco_D
+    tipo = "disco"
+    pila = 1
+    posizione = 4
+endFact
+
+# GOAL
+beginGoal:
+    beginFact: pila_1
+        etichetta = 1
+        tipo = "pila"
+        n_dischi = 2
+    endFact
+    beginFact: pila_2
+        etichetta = 2
+        tipo = "pila"
+        n_dischi = 1
+    endFact
+    beginFact: pila_3
+        etichetta = 3
+        tipo = "pila"
+        n_dischi = 1
+    endFact
+
+    beginFact: disco_A
+        tipo = "disco"
+        pila = 1
+        posizione = 1
+    endFact
+    beginFact: disco_B
+        tipo = "disco"
+        pila = 2
+        posizione = 1
+    endFact
+    beginFact: disco_C
+        tipo = "disco"
+        pila = 3
+        posizione = 1
+    endFact
+    beginFact: disco_D
+        tipo = "disco"
+        pila = 1
+        posizione = 2
+    endFact
+endGoal
+
+# RULES
+beginRule: sposta_un_disco
+    equal(?disk, tipo, "disco")
+    equal(?p_src, tipo, "pila")
+    equal(?p_dest, tipo, "pila")
+    less_than(?p_dest, n_dischi, 3)
+    equal(?disk, posizione, ?p_src->n_dischi)
+    equal(?disk, pila, ?p_src->etichetta)
+then
+    update(?disk, pila, ?p_dest->etichetta)
+    update(?disk, posizione, ?p_dest->n_dischi+1)
+    update(?p_src, n_dischi, ?p_src->n_dischi-1)
+    update(?p_dest, n_dischi, ?p_dest->n_dischi+1)
+endRule
