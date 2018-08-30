@@ -1,3 +1,5 @@
+**DISCLAIMER** this is my first `python` project (**dated 2012!**) of ever, so *please* be kind if you read the code.
+
 # expert-system interpreter
 
 In **Artificial Intelligence**, an expert system is a computer system that emulates the decision-making ability of a human expert. 
