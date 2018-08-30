@@ -1,4 +1,4 @@
-**DISCLAIMER** this is my first `python` project (**dated 2012!**) of ever, so *please* be kind if you read the code.
+**DISCLAIMER** this is my first `python` project (**dated 2012, with python 2.5 more or less**) of ever, so *please* be kind if you read the code.
 
 # expert-system interpreter
 
